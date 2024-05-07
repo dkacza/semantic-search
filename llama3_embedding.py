@@ -6,7 +6,7 @@ from qdrant_client.models import Distance, VectorParams, PointStruct
 
 # Initialize vector DB client and collection details
 LLAMA2_VEC_LEN = 4096
-LLAMA2_COLLECTION = 'llama2-test'
+LLAMA2_COLLECTION = 'llama3-test'
 current_id = 0
 
 
@@ -20,7 +20,7 @@ def embedData(client, data):
     print('Embedding data...')
     for word in data:
         global current_id
-        embedding = ollama.embeddings(model='llama2', prompt=word)['embedding']
+        embedding = ollama.embeddings(model='llama3', prompt=word)['embedding']
         client.upsert(collection_name=LLAMA2_COLLECTION, wait=True, points=[
             PointStruct(
                 id = current_id,
@@ -32,7 +32,8 @@ def embedData(client, data):
     print(f'{len(data)} vectors successfully inserted')
 
 def performQuery(client, query):
-    embedding = ollama.embeddings(model='llama2', prompt=query)
+    print(query)
+    embedding = ollama.embeddings(model='llama3', prompt=query)
     print(f'Query {query} converted to vector. Finding matching vectors...')
     search_results = client.search(collection_name=LLAMA2_COLLECTION, query_vector=embedding['embedding'], limit=5)
     return search_results

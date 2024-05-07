@@ -1,6 +1,6 @@
 from qdrant_client import QdrantClient
-import llama2_embedding
-import dummy_embedding
+import llama3_embedding
+import openai_embedding
 
 
 client = QdrantClient(url="http://localhost:6333")
@@ -18,15 +18,15 @@ embedding_model = None
 while True:
     print('''
     Select embedding model:
-          1. llama2
-          2. dummy-model
+          1. llama3 - Local
+          2. OpenAI
     ''')
     user_input = input("> ")
     if user_input == "1":
-        embedding_model = llama2_embedding
+        embedding_model = llama3_embedding
         break
-    if user_input == "2":
-        embedding_model = dummy_embedding
+    if user_input == "3":
+        embedding_model = openai_embedding
         break
 
 embedding_model.recreateCollection(client)
