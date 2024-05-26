@@ -42,7 +42,7 @@ vector_size = model_data[1]
 model = model_data[2]
 collection_name = 'Demo'
 
-utils.recreate_collection(collection_name, vector_size)
+utils.recreate_collection(client, collection_name, vector_size)
 for word in european_capitals:
     utils.embed_data(client, collection_name, model, sub_model, word, current_index)
     current_index += 1

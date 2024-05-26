@@ -21,7 +21,7 @@ json_string = input_file.read()
 test_data = json.loads(json_string)
 
 final_scores = {}
-categories = []
+categories = set()
 
 # Create separate collection for each test and for each model
 for model_data in models:
@@ -34,7 +34,7 @@ for model_data in models:
 
     for key in test_data:
 
-        categories.append(key)
+        categories.add(key)
         
         # Get current collection 
         collection_name = sub_model + '-' + key
@@ -75,6 +75,7 @@ for model_data in models:
     # Set scores for model
     final_scores[sub_model] = current_model_scores 
 
+categories = list(categories)
 
 # Save to JSON file
 with open("results.json", "w") as outfile: 
@@ -90,14 +91,17 @@ csv_output_string = csv_output_string[:-1] + '\n'
 
 # Scores of each model and threshold score
 threshold_scores = []
+threshold_full = False
 for model in final_scores:
     csv_output_string += model + ','
     for category in categories:
         collection_name = model + '-' + category
         score = final_scores[model][collection_name]['correct_percentage']
-        threshold_scores.append(final_scores[model][collection_name]['random_threshold_percentage'])
+        if not threshold_full:
+            threshold_scores.append(final_scores[model][collection_name]['random_threshold_percentage'])
         csv_output_string += str(score) + ','
     csv_output_string = csv_output_string[:-1] + '\n'
+    threshold_full = True
 
 # Threshold scores
 csv_output_string += 'threshold,'

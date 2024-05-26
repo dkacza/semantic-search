@@ -22,6 +22,3 @@ def perform_query(client, collection_name, model, sub_model, query):
     print(f'Query {query} converted to vector. Finding matching vectors in {collection_name} collection.')
     search_results = client.search(collection_name=collection_name, query_vector=embedding, limit=5)
     return search_results
-
-def process_test_data():
-    
