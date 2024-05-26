@@ -160,3 +160,6 @@ cython_debug/
 #.idea/
 api_key.txt
 test_data.txt
+scores.json
+results.csv
+process_test_data.py
